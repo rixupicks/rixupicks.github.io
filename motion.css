@@ -1,0 +1,124 @@
+/* ===== RIXU Picks — motion layer (loaded last). Transforms + opacity only; IntersectionObserver-driven; off for reduced motion. ===== */
+/* footer category links (crawlable) */
+.fcats{position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:6px auto 14px;max-width:640px}
+.fcats b{width:100%;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9a9aa2;font-weight:700;margin-bottom:2px}
+.fcats a{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:99px;border:1px solid rgba(255,255,255,.12);background:rgba(12,12,14,.94);color:#d6d6db;font-size:12.5px;text-decoration:none}
+.fcats a:active{transform:scale(.94)}
+/* tap sizes (a11y) */
+.chip,.qfb{min-height:36px}
+.hrow-more{min-height:36px;padding:8px 6px}
+.price em{display:inline-block;padding:1px 6px;border-radius:99px;background:rgba(35,187,117,.12);border:1px solid rgba(35,187,117,.35);font-size:10.5px;line-height:1.5;position:relative;overflow:hidden;isolation:isolate}
+.mo-fly{position:fixed;z-index:200;width:64px;height:80px;object-fit:cover;border-radius:12px;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.7),0 0 0 2px rgba(255,59,59,.8),0 0 22px rgba(255,59,59,.6);will-change:transform,opacity}
+
+@media (prefers-reduced-motion: no-preference){
+/* --- image skeleton shimmer while loading --- */
+html.mo .ph::after,html.mo .mo-sk::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.07) 45%,rgba(255,59,59,.07) 55%,transparent 80%);transform:translateX(-100%);animation:mo-sk 1.25s ease-in-out infinite}
+html.mo .ph.ld::after,html.mo .mo-sk.ld::after{animation:none;opacity:0}
+@keyframes mo-sk{to{transform:translateX(100%)}}
+html.mo .ph img{opacity:0;transform:scale(1.08)}
+html.mo .ph.ld img{opacity:1;transform:none;transition:opacity .5s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+html.mo .card.tilt .ph.ld img{transform:scale(1.05)}
+
+/* --- card badges animate in when the card is revealed --- */
+.card.vis .rp{animation:mo-slidein .55s .25s cubic-bezier(.2,.9,.3,1.3) both}
+.card.vis .new{animation:mo-pop .5s .35s cubic-bezier(.2,.9,.3,1.4) both}
+.card.vis .price em{animation:mo-pop .5s .3s cubic-bezier(.2,.9,.3,1.5) both}
+.card.vis .price b{display:inline-block;animation:mo-up .45s .15s ease both}
+/* discount badge: a soft shine loop, only while that card is on screen */
+.price em::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(127,240,184,.45) 50%,transparent 70%);transform:translateX(-120%)}
+.card.iv .price em::after{animation:mo-shine 2.8s 1s ease-in-out infinite}
+@keyframes mo-shine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes mo-slidein{from{opacity:0;transform:translateX(-100%)}to{opacity:1;transform:none}}
+@keyframes mo-pop{0%{opacity:0;transform:scale(.4)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes mo-up{from{opacity:0;transform:translate3d(0,10px,0)}to{opacity:1;transform:none}}
+
+/* --- tap / hover micro-interactions --- */
+.card .buy,.info .addcart,.chip,.circ,.heart,.pd-add,.pd-buy,.mdc-op,.cbuy,.crm,.btn-glow,.btn-ghost{transition:transform .18s cubic-bezier(.2,.8,.2,1),background .25s,border-color .25s,color .25s,box-shadow .25s}
+.card .buy:active,.info .addcart:active,.chip:active,.cbuy:active,.pd-add:active,.pd-buy:active,.mdc-op:active,.btn-glow:active,.btn-ghost:active{transform:scale(.94)}
+.circ:active .ring{transform:scale(.9)}
+.circ .ring{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+@media(hover:hover){.circ:hover .ring{transform:scale(1.06)}.mdc-op:hover{transform:translateY(-3px)}.chip:hover{transform:translateY(-1px)}}
+
+/* --- add to cart: button confirms, cart icon bumps --- */
+.info .addcart.on,.pd-add.on,.rs-cart.on{animation:mo-ok .42s cubic-bezier(.2,.9,.3,1.5)}
+@keyframes mo-ok{0%{transform:scale(.88)}60%{transform:scale(1.07)}100%{transform:scale(1)}}
+.mo-bump{animation:mo-bump .5s cubic-bezier(.2,.9,.3,1.5)}
+.mo-bump .cdot,.mo-bump .pd-cn{animation:mo-pop .45s cubic-bezier(.2,.9,.3,1.6)}
+@keyframes mo-bump{0%{transform:scale(1)}30%{transform:scale(1.28) rotate(-8deg)}60%{transform:scale(.92) rotate(4deg)}100%{transform:scale(1)}}
+
+/* --- heart pop + burst ring --- */
+.heart::after,.pd-heart::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid #ff3b5c;opacity:0;transform:scale(.6);pointer-events:none}
+.heart.on,.pd-heart.on{animation:mo-heart .5s cubic-bezier(.2,.9,.3,1.5)}
+.heart.on::after,.pd-heart.on::after{animation:mo-burst .55s ease-out}
+@keyframes mo-heart{0%{transform:scale(.6)}45%{transform:scale(1.35)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes mo-burst{0%{opacity:.9;transform:scale(.6)}100%{opacity:0;transform:scale(1.9)}}
+
+/* --- category chips + filter transitions --- */
+#chips.go .chip{animation:mo-up .4s ease both;animation-delay:calc(var(--i,0)*45ms)}
+.chip.on{animation:mo-chip .4s cubic-bezier(.2,.9,.3,1.5)}
+@keyframes mo-chip{0%{transform:scale(.9)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+#circles.go .circ{animation:mo-pop .5s cubic-bezier(.2,.9,.3,1.4) both;animation-delay:calc(var(--i,0)*50ms)}
+.card.re{animation:mo-re .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--rd,0ms)}
+@keyframes mo-re{from{opacity:0;transform:translate3d(0,18px,0) scale(.96)}to{opacity:1;transform:none}}
+#filterbar:not([hidden]),#empty:not([hidden]){animation:mo-down .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes mo-down{from{opacity:0;transform:translate3d(0,-10px,0)}to{opacity:1;transform:none}}
+
+/* --- cart drawer: springier slide, items stagger in --- */
+.csheet{transition:transform .42s cubic-bezier(.2,.9,.25,1.08),visibility .42s}
+.csheet.mo-in .citem{animation:mo-left .4s cubic-bezier(.2,.8,.2,1) both}
+.csheet.mo-in .citem:nth-child(2){animation-delay:50ms}.csheet.mo-in .citem:nth-child(3){animation-delay:100ms}.csheet.mo-in .citem:nth-child(4){animation-delay:150ms}.csheet.mo-in .citem:nth-child(5){animation-delay:200ms}.csheet.mo-in .citem:nth-child(n+6){animation-delay:250ms}
+.csheet.mo-in .ctotal b{display:inline-block;animation:mo-pop .5s .2s cubic-bezier(.2,.9,.3,1.4) both}
+@keyframes mo-left{from{opacity:0;transform:translate3d(28px,0,0)}to{opacity:1;transform:none}}
+
+/* --- drawer links stagger --- */
+.drawer.open .dlink{animation:mo-left .4s ease both}
+.drawer.open .dlink:nth-child(2){animation-delay:30ms}.drawer.open .dlink:nth-child(3){animation-delay:60ms}.drawer.open .dlink:nth-child(4){animation-delay:90ms}.drawer.open .dlink:nth-child(5){animation-delay:120ms}.drawer.open .dlink:nth-child(6){animation-delay:150ms}.drawer.open .dlink:nth-child(n+7){animation-delay:180ms}
+
+/* --- product page: entrance, gallery, colour chips, Buy Now pulse --- */
+.pd{transition:transform .38s cubic-bezier(.2,.85,.25,1),visibility .38s}
+.pd.mo-enter .pd-gal{animation:mo-zoom .55s cubic-bezier(.2,.8,.2,1) both}
+.pd.mo-enter .pd-thumbs button{animation:mo-pop .4s cubic-bezier(.2,.9,.3,1.4) both;animation-delay:calc(var(--i,0)*50ms + 150ms)}
+.pd.mo-enter .pd-box{animation:mo-up .5s .12s ease both}
+.pd.mo-enter .pd-sec:nth-of-type(1){animation:mo-up .5s .2s ease both}
+.pd.mo-enter .pd-sec:nth-of-type(2){animation:mo-up .5s .26s ease both}
+.pd.mo-enter .pd-bar{animation:mo-bar .5s .15s cubic-bezier(.2,.9,.3,1.2) both}
+.pd.mo-enter .pd-heart{animation:mo-pop .5s .3s cubic-bezier(.2,.9,.3,1.5) both}
+@keyframes mo-zoom{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+@keyframes mo-bar{from{transform:translate3d(0,100%,0)}to{transform:none}}
+.pd-sl img{transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s}
+.pd-slides.mo-g .pd-sl:not(.act) img{transform:scale(.9);opacity:.45}
+.pd-dots{gap:9px}
+.pd-dots i,.pd-dots i.on{width:6px;border-radius:3px;transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s}
+.pd-dots i.on{transform:scaleX(2.3)}
+.pd-thumbs button{transition:transform .25s cubic-bezier(.2,.8,.2,1),opacity .25s,border-color .25s}
+.pd-thumbs button.on{transform:translateY(-2px) scale(1.06)}
+.pd-cnt{transition:opacity .2s}
+.mdc.go>*,.mdc-more.go>*{animation:mo-pop .45s cubic-bezier(.2,.9,.3,1.4) both;animation-delay:calc(var(--i,0)*55ms)}
+.mdc-chip.on{position:relative}
+.mdc-chip.on::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid #ff5a5a;opacity:0;pointer-events:none;animation:mo-ring 2.2s 1s ease-out infinite}
+.pd-buy{z-index:0}
+.pd-buy::before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 2px rgba(255,70,70,.85);opacity:0;pointer-events:none;animation:mo-ring 1.9s ease-out infinite}
+.pd-bar{overflow:visible}
+.pd-buy{overflow:visible}
+.pd-buy::after{border-radius:inherit;overflow:hidden}
+@keyframes mo-ring{0%{opacity:.85;transform:scale(1)}100%{opacity:0;transform:scale(1.14,1.35)}}
+
+/* --- hero: copy cascades in, counter ticks --- */
+.hx-copy>*{animation:mo-up .6s cubic-bezier(.2,.8,.2,1) both}
+.hx-copy>:nth-child(2){animation-delay:.08s}.hx-copy>:nth-child(3){animation-delay:.16s}.hx-copy>:nth-child(4){animation-delay:.24s}.hx-copy>:nth-child(5){animation-delay:.32s}
+#hxcount{display:inline-block;min-width:3ch;font-variant-numeric:tabular-nums}
+#hxcount.tick{animation:mo-pop .45s cubic-bezier(.2,.9,.3,1.6)}
+
+/* --- sections reveal --- */
+html.mo .mo-rv:not(.vis){opacity:0;transform:translate3d(0,26px,0)}
+html.mo .mo-rv.vis{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.hrow.vis .hrow-s>*{animation:mo-left .45s cubic-bezier(.2,.8,.2,1) both}
+.hrow.vis .hrow-s>:nth-child(2){animation-delay:60ms}.hrow.vis .hrow-s>:nth-child(3){animation-delay:120ms}.hrow.vis .hrow-s>:nth-child(n+4){animation-delay:180ms}
+
+/* low-end phones: keep entrances, drop the loops */
+.lite .card.iv .price em::after,.lite .mdc-chip.on::after{animation:none}
+.lite.mo .ph::after{animation:none;background:none}
+}
+@media (prefers-reduced-motion: reduce){
+ .mo-fly{display:none}
+}

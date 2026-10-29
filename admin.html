@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#070707">
+<title>RIXU Picks — Owner panel</title>
+<link rel="preload" href="fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="admin.css?v=20261029b">
+</head>
+<body>
+<header class="ab">
+  <a class="logo" href="./">RIXU <i>Picks</i></a>
+  <span class="tag">Owner panel</span>
+</header>
+<main class="aw">
+  <section class="hello">
+    <h1><span>Owner</span> <span>panel</span></h1>
+    <p class="lead">Yahan se apni site ke products manage karo, Rishi 👋</p>
+    <p class="honest"><b>📲 Kaise kaam karta hai:</b> Ye request Tab ko WhatsApp pe jaati hai, Tab site update karta hai. Is page pe koi login nahi hai aur ye khud site nahi badalta — har button WhatsApp kholta hai with a ready message; bas <b>Send</b> dabao.</p>
+  </section>
+
+  <section class="card-s" aria-labelledby="st-h">
+    <h2 id="st-h">📊 Stats <small>(site ke data se, live)</small></h2>
+    <div class="stats" id="stats"></div>
+    <div class="catchips" id="catchips"></div>
+  </section>
+
+  <section class="card-s" aria-labelledby="add-h">
+    <h2 id="add-h">➕ Naya product add karo</h2>
+    <form id="addf" class="form" novalidate>
+      <label>Meesho link <input id="a-link" type="url" inputmode="url" placeholder="https://www.meesho.com/s/p/…  ya affiliate link" autocomplete="off"></label>
+      <label>Naam <input id="a-name" type="text" placeholder="jaise: Black Oversized Hoodie" autocomplete="off"></label>
+      <div class="row2">
+        <label>Price (₹) <input id="a-price" type="number" inputmode="numeric" min="1" placeholder="299"></label>
+        <label>Category <select id="a-cat"></select></label>
+      </div>
+      <label>Notes <textarea id="a-notes" rows="2" placeholder="optional: RIXU Pick badge, NEW badge, colour, kis reel me aaya…"></textarea></label>
+      <p class="hint" id="a-hint" aria-live="polite"></p>
+      <p class="pv-l">WhatsApp message preview:</p>
+      <pre class="pv" id="a-pv"></pre>
+      <a class="wa" id="a-wa" href="https://wa.me/12512765320" target="_blank" rel="noopener">WhatsApp pe Tab ko bhejo →</a>
+    </form>
+  </section>
+
+  <section class="card-s" aria-labelledby="ls-h">
+    <h2 id="ls-h">🗂️ Saare products <small id="ls-n"></small></h2>
+    <div class="filters">
+      <input id="q" type="search" placeholder="Naam, id (p175) ya Meesho code se dhundo…" autocomplete="off" aria-label="Products dhundo">
+      <select id="fcat" aria-label="Category filter"><option value="">Saari categories</option></select>
+    </div>
+    <ul class="list" id="list"></ul>
+  </section>
+  <p class="foot">Price as on Meesho — may change · <a href="./">← Site pe wapas</a> · <a href="https://www.instagram.com/rixupicks/" target="_blank" rel="noopener">@rixupicks</a></p>
+</main>
+
+<div class="dlg" id="dlg" hidden>
+  <div class="dlg-in" role="dialog" aria-modal="true" aria-labelledby="dlg-t">
+    <button class="dx" id="dlg-x" type="button" aria-label="Band karo">✕</button>
+    <h3 id="dlg-t"></h3>
+    <div id="dlg-edit">
+      <label>Naya naam <input id="e-name" type="text" autocomplete="off"></label>
+      <div class="row2">
+        <label>Naya price (₹) <input id="e-price" type="number" inputmode="numeric" min="1"></label>
+        <label>Category <select id="e-cat"></select></label>
+      </div>
+      <label>Naya Meesho link <small>(optional)</small> <input id="e-link" type="url" inputmode="url" placeholder="sirf badalna ho toh" autocomplete="off"></label>
+    </div>
+    <label>Notes / reason <textarea id="e-notes" rows="2" placeholder="optional"></textarea></label>
+    <p class="pv-l">WhatsApp message preview:</p>
+    <pre class="pv" id="e-pv"></pre>
+    <a class="wa" id="e-wa" href="https://wa.me/12512765320" target="_blank" rel="noopener">WhatsApp pe Tab ko bhejo →</a>
+  </div>
+</div>
+<script src="products.js?v=20261029b"></script>
+<script src="admin.js?v=20261029b"></script>
+</body>
+</html>
