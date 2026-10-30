@@ -1,0 +1,14 @@
+/* home promo + drawer link for Outfit Banao */
+.ob-promo{display:flex;align-items:center;gap:10px;padding:14px;border-radius:20px;text-decoration:none;color:#f4f4f5;border:1px solid rgba(200,255,46,.45);background:radial-gradient(80% 120% at 0% 0%,rgba(200,255,46,.18),transparent 60%),linear-gradient(135deg,#151517,#0b0b0c);overflow:hidden}
+.ob-pt{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+.ob-pt small{font:800 10.5px/1 system-ui,sans-serif;letter-spacing:.9px;color:#c8ff2e}
+.ob-pt b{font-family:"RixuD",Impact,sans-serif;font-weight:400;font-size:28px;line-height:1.05;letter-spacing:.4px}.ob-pt b em{font-style:normal;color:#c8ff2e}
+.ob-pt>span{font-size:12.5px;color:#cfcfd4;line-height:1.35}
+.ob-pt i{font-style:normal;font-weight:800;font-size:13px;color:#c8ff2e;margin-top:2px}
+.ob-pi{position:relative;flex:none;width:104px;height:132px}
+.ob-pi img{position:absolute;width:74px;height:94px;object-fit:cover;border-radius:12px;border:2px solid #0b0b0c;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+.ob-pi img:first-child{top:0;right:4px;transform:rotate(5deg)}
+.ob-pi img:last-child{bottom:0;left:0;transform:rotate(-6deg)}
+.dlink-ob{color:#c8ff2e!important}
+.dnew{font-size:10px;font-weight:800;background:#c8ff2e;color:#111;border-radius:5px;padding:2px 5px;margin-left:6px;vertical-align:1px}
+a.rx-btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
