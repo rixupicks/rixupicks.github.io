@@ -15,7 +15,7 @@
   var ITEMS = [];
   RX_OUTFIT.items.forEach(function (r) {
     var p = byImg[r[0]]; if (!p || !p.link) return;
-    ITEMS.push({ p: p, key: keyOf(p.img), role: r[1], g: r[2], type: r[3], hex: r[4], lab: r[5], src: r[6], print: !!r[7] });
+    ITEMS.push({ p: p, key: keyOf(p.img), role: r[1], g: r[2], type: r[3], hex: r[4], lab: r[5], src: r[6], print: !!r[7], cut: (typeof RX_CUT !== "undefined" && RX_CUT[r[0]]) || null });
   });
   var byKey = {}; ITEMS.forEach(function (it) { byKey[it.key] = it; });
 
@@ -257,8 +257,8 @@
   }
   function defaults() {
     var tops = pool("t"); if (!tops.length) { S.top = null; S.bot = null; return; }
-    if (!S.top || S.top.g !== MODELS[S.m].g) S.top = tops.slice().sort(function (a, b) { return (b.p.rating || 0) * Math.log(1 + (b.p.rc || 1)) - (a.p.rating || 0) * Math.log(1 + (a.p.rc || 1)); })[0];
-    if (!S.bot || S.bot.g !== MODELS[S.m].g) { var bb = bestBottomsFor(S.top); S.bot = bb.length ? bb[0].it : null; }
+    if (!S.top || S.top.g !== MODELS[S.m].g) S.top = (MODELS[S.m].g === "m" && byKey.p190 && byKey.p190.cut) ? byKey.p190 : tops.slice().sort(function (a, b) { return (b.cut ? 9 : 0) - (a.cut ? 9 : 0) + (b.p.rating || 0) * Math.log(1 + (b.p.rc || 1)) - (a.p.rating || 0) * Math.log(1 + (a.p.rc || 1)); })[0];
+    if (!S.bot || S.bot.g !== MODELS[S.m].g) { var bb = bestBottomsFor(S.top), bc = bb.filter(function (x) { return x.it.cut && x.v.k >= 1; }); S.bot = bc.length ? bc[0].it : bb.length ? bb[0].it : null; }
   }
   (function fromURL() {
     var t = byKey[q.get("top") || ""], b = byKey[q.get("bottom") || ""], one = byKey[q.get("p") || ""];
@@ -290,22 +290,25 @@
     var p = it.p;
     return '<div class="ob-row"><img src="' + p.img + '" alt="" width="56" height="70" loading="lazy" decoding="async"><div class="ob-ri"><span class="ob-ty">' + (slot === "t" ? "Upar · " : slot === "s" ? "Set · " : "Niche · ") + H(label(it)) + '</span><b>' + H(p.name) + '</b><span class="ob-mt"><i class="ob-dot" style="background:' + it.hex + '"></i>' + cname(it) + ' · <span class="ob-pr">' + money(p.price) + (p.mrp && p.mrp > p.price ? " <s>" + money(p.mrp) + "</s>" : "") + "</span> " + stars(p) + '</span></div><a class="ob-buy" href="' + H(p.link) + '" target="_blank" rel="noopener sponsored">Buy on Meesho</a></div>';
   }
+  var CV = null;
   function stage() {
     var kids = S.m === "kids", kset = kids ? ITEMS.filter(function (it) { return it.g === "k"; })[0] : null;
-    var top = kids ? kset : S.top, bot = kids ? (kset ? { type: "pant", hex: "#efe7d4", p: { name: "pajama" }, role: "b" } : null) : S.bot;
-    var G = geo(MODELS[S.m]), SH = 308, PH = 112, px = function (y) { return 10 + y / 462 * SH; };
-    var t1 = Math.max(10 + PH / 2, px((G.sY + G.wY) / 2)), b1 = Math.min(10 + SH - PH / 2 + 4, Math.max(px((G.hipY + G.kY) / 2), t1 + PH + 10));
-    var yT = (t1 / (SH + 32) * 100).toFixed(1), yB = (b1 / (SH + 32) * 100).toFixed(1);
-    $("#ob-stage").innerHTML = '<div class="ob-figw">' + figure(S.m, top, bot) + '</div><div class="ob-pins">' + (kids ? (kset ? pin(kset, "s", yT) : "") : pin(S.top, "t", yT) + pin(S.bot, "b", yB)) + '</div><span class="ob-cap">' + MODELS[S.m].name + " · colour preview</span>";
+    var top = kids ? kset : S.top, bot = kids ? (kset ? { type: "pant", hex: "#efe7d4", p: { name: "pajama" }, role: "b", cut: null } : null) : S.bot;
+    var st = $("#ob-stage");
+    if (!st.querySelector(".ob-figw")) st.innerHTML = '<div class="ob-figw"></div><div class="ob-pins"></div><span class="ob-cap"></span>';
+    if (!CV && window.RXC) CV = new RXC.Stage(st.querySelector(".ob-figw"));
+    if (CV) CV.render(S.m, top, bot);
+    st.querySelector(".ob-pins").innerHTML = kids ? (kset ? pin(kset, "s", 30) : "") : pin(S.top, "t", 28) + pin(S.bot, "b", 68);
+    var asCard = [top, bot].filter(function (it) { return it && it.p && it.p.img && !it.cut; }).length;
+    st.querySelector(".ob-cap").textContent = MODELS[S.m].name + (asCard ? " · kuch item ka sirf rang (photo saaf nahi kati)" : " · asli Meesho photo ka kapda") + " · ↔ ghumao";
     $("#ob-fit").innerHTML = kids ? (kset ? row(kset, "s") : "") : row(S.top, "t") + row(S.bot, "b");
     $("#ob-verdict").innerHTML = verdictHTML();
-    if (!REDUCE) { var f = $("#ob-stage .ob-fig"); f.classList.remove("ob-pop"); void f.getBoundingClientRect(); f.classList.add("ob-pop"); }
     try { var u = new URL(location.href); u.searchParams.set("m", S.m); if (S.top && !kids) u.searchParams.set("top", S.top.key); else u.searchParams.delete("top"); if (S.bot && !kids) u.searchParams.set("bottom", S.bot.key); else u.searchParams.delete("bottom"); u.searchParams.delete("p"); history.replaceState(null, "", u.pathname + u.search); } catch (e) {}
   }
   function models() {
     $("#ob-models").innerHTML = ORDER.map(function (k) { var m = MODELS[k]; return '<button type="button" class="ob-mb' + (S.m === k ? " on" : "") + '" data-m="' + k + '" aria-pressed="' + (S.m === k) + '">' + mini(k) + "<span>" + m.name + "</span></button>"; }).join("");
   }
-  function mini(k) { var m = MODELS[k], G = geo(m); return '<svg viewBox="40 ' + (G.t0 - 6) + ' 120 ' + (G.sY - G.t0 + 34) + '" aria-hidden="true">' + hair(m, G, true) + '<path d="' + torsoPath(m, G, 2, G.sY + 40) + '" fill="#2a2a2e"/><circle cx="100" cy="' + G.hy + '" r="' + m.r + '" fill="' + m.skin + '"/>' + hair(m, G, false) + "</svg>"; }
+  function mini(k) { if (!window.RXC) return ""; var m = RXC.MODELS[k], s = 436 / m.H, top = 452 - m.H * s, hgt = (m.hr * 2 + 16) * s; return '<svg viewBox="' + (100 - hgt * .62).toFixed(1) + " " + (top - 3).toFixed(1) + " " + (hgt * 1.24).toFixed(1) + " " + (hgt + 3).toFixed(1) + '" aria-hidden="true">' + RXC.svgChar(k, "f", "under") + RXC.svgChar(k, "f", "over") + "</svg>"; }
   function strip(role) {
     var box = $(role === "t" ? "#ob-pt" : "#ob-pb"); if (!box) return;
     if (S.m === "kids") { box.innerHTML = role === "t" ? kidsHTML() : ""; return; }
@@ -314,6 +317,7 @@
     if (groups.indexOf(S[gk]) < 0) S[gk] = "All";
     var shown = list.filter(function (it) { return S[gk] === "All" || GR[it.type] === S[gk]; }).map(function (it) { return { it: it, v: other ? (role === "t" ? match(it, other) : match(other, it)) : null }; });
     if (role === "b" && other) shown.sort(function (a, b) { return (b.v.k * 10 + b.v.sc) - (a.v.k * 10 + a.v.sc); });
+    else shown.sort(function (a, b) { return (b.it.cut ? 1 : 0) - (a.it.cut ? 1 : 0); });
     var miss = "";
     if (role === "b") { var have = {}; list.forEach(function (it) { have[BOTGRP[it.type]] = 1; }); var need = ["Jeans", "Baggy Jeans", "Cargo", "Full Pant"].filter(function (g) { return !have[g]; });
       if (need.length) miss = '<p class="ob-miss">ℹ️ ' + MODELS[S.m].name + " ke liye abhi " + need.join(", ") + " collection me nahi " + (need.length > 1 ? "hain" : "hai") + " — jaldi add karenge.</p>"; }
@@ -322,7 +326,7 @@
       '<div class="ob-grp">' + groups.map(function (g) { return '<button type="button" data-grp="' + H(g) + '" data-role="' + role + '" class="' + (S[gk] === g ? "on" : "") + '">' + H(g) + "</button>"; }).join("") + "</div>" + miss +
       '<div class="ob-rail" role="list">' + shown.map(function (x) { var it = x.it, on = mine === it;
         return '<button type="button" role="listitem" class="ob-th' + (on ? " on" : "") + '" data-pick="' + it.key + '" aria-pressed="' + on + '" aria-label="' + H(it.p.name) + " " + money(it.p.price) + (x.v ? " — " + BADGE[x.v.k][1] : "") + '"><img src="' + it.p.img + '" alt="" loading="lazy" decoding="async" width="84" height="104">' +
-          (x.v ? '<em class="ob-mk ob-k' + x.v.k + '">' + BADGE[x.v.k][1].split(" ")[0] + "</em>" : "") + '<i class="ob-dot" style="background:' + it.hex + '"></i><span>' + H(label(it)) + "</span><b>" + money(it.p.price) + "</b></button>"; }).join("") + "</div>";
+          (x.v ? '<em class="ob-mk ob-k' + x.v.k + '">' + BADGE[x.v.k][1].split(" ")[0] + "</em>" : "") + (it.cut ? '<u class="ob-real" title="Asli kapda model pe">📸</u>' : "") + '<i class="ob-dot" style="background:' + it.hex + '"></i><span>' + H(label(it)) + "</span><b>" + money(it.p.price) + "</b></button>"; }).join("") + "</div>";
     box.dataset.k = S.m + role + S[gk];
     if (same && sl) box.querySelector(".ob-rail").scrollLeft = sl;
   }

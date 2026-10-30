@@ -96,3 +96,40 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offse
 .ob-grp{padding:2px 0 6px}
 .ob-th{transition:transform .12s,border-color .2s}.ob-th:active{transform:scale(.95)}
 @media (max-height:700px){.ob-sticky{position:static;box-shadow:none}}
+
+/* ---- v20261030f: real-garment character stage (2D SVG + lazy 3D) ---- */
+.ob-stage{height:410px;padding:8px 6px 26px}
+.ob-figw{flex:0 0 70%;flex-direction:column;align-items:center}
+.ob-pins{left:70%}
+.ob-pin{left:4px;width:min(80px,94%)}
+.ob-pin::before{width:20px}.ob-pin::after{right:calc(100% + 17px)}
+.cv-box{position:relative;flex:1 1 auto;width:100%;min-height:0;perspective:900px}
+.cv-2d,.cv-3d{position:absolute;inset:0;margin:auto;height:100%;aspect-ratio:200/462;max-width:100%}
+.cv-3d{aspect-ratio:auto;width:100%}
+.cv-3d canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}
+.cv-3d canvas:active{cursor:grabbing}
+.cv-2d{transition:transform .19s ease-in;transform-style:preserve-3d}
+.cv-2d.cv-turn1{transform:rotateY(90deg)}
+.cv-2d.cv-turn2{transform:rotateY(-90deg);transition:none}
+.cv-2d svg,.cv-g{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cv-g img,.cv-g i{position:absolute;display:block;max-width:none;pointer-events:none;-webkit-user-select:none;user-select:none}
+.cv-g img{object-fit:fill;filter:drop-shadow(0 2px 3px rgba(0,0,0,.28));animation:cvIn .35s ease}
+.cv-g .cv-sil{-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;transform:scaleX(-1);background-image:linear-gradient(90deg,rgba(255,255,255,.08),rgba(0,0,0,0) 45%,rgba(0,0,0,.22))}
+.cv-g .cv-blk{border-radius:28% 28% 12% 12%/14% 14% 8% 8%;opacity:.96;background-image:linear-gradient(90deg,rgba(255,255,255,.1),rgba(0,0,0,0) 45%,rgba(0,0,0,.2))}
+.cv-g .cv-blk.cv-b{border-radius:10% 10% 6% 6%/4% 4% 3% 3%;-webkit-mask:linear-gradient(90deg,#000 47%,transparent 47% 53%,#000 53%) bottom/100% 55% no-repeat,linear-gradient(#000,#000) top/100% 46% no-repeat;mask:linear-gradient(90deg,#000 47%,transparent 47% 53%,#000 53%) bottom/100% 55% no-repeat,linear-gradient(#000,#000) top/100% 46% no-repeat}
+.cv-eye{animation:cvBlink 4.6s infinite;transform-box:fill-box;transform-origin:center}
+.cv-2d .cv-u{animation:cvBreath 3.2s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes cvBlink{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.1)}}
+@keyframes cvBreath{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.006)}}
+@keyframes cvIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.cv-pop{animation:obPop .45s cubic-bezier(.2,1.4,.4,1)}
+.cv-ctl{display:flex;gap:6px;justify-content:center;margin-top:4px;position:relative;z-index:3}
+.cv-b{border:1px solid rgba(255,255,255,.16);background:rgba(20,20,22,.88);border-radius:999px;padding:6px 10px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.cv-b:active{transform:scale(.96)}
+.cv-m{color:var(--lime)}
+.cv-note{position:absolute;left:8px;right:8px;top:6px;margin:0;z-index:4;font-size:11px;line-height:1.3;text-align:center;background:rgba(10,10,12,.86);border:1px solid rgba(200,255,46,.35);border-radius:10px;padding:5px 8px}
+.cv-hint-x{position:absolute;left:0;right:30%;bottom:46px;text-align:center;font-size:10px;color:var(--mute);pointer-events:none;opacity:.85}
+.cv-ld .cv-hint::after{content:" · 3D aa raha hai…"}
+.ob-cap{left:4px;right:4px;bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+@media (prefers-reduced-motion:reduce){.cv-eye,.cv-2d .cv-u,.cv-g img,.cv-pop{animation:none}.cv-2d{transition:none}}
+.ob-th{position:relative}.ob-real{position:absolute;top:4px;right:4px;font-size:11px;text-decoration:none;background:rgba(0,0,0,.6);border-radius:7px;padding:1px 3px;line-height:1.2}
