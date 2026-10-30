@@ -1,0 +1,42 @@
+/* ===== RIXU FX — signature motion layer (v20261030b). Transform/opacity only, one shared canvas, all off for reduced motion. ===== */
+.sig-fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9990;contain:strict}
+@media (prefers-reduced-motion: no-preference){
+/* 1. particle intro */
+html.sig-pi .rx-intro-in{visibility:hidden}
+html.sig-pi .rx-intro-s{margin-top:44px}
+html.sig-pi.rx-introon .rx-intro{animation:rxOut .3s 1.12s cubic-bezier(.6,0,.4,1) forwards}
+.sig-ic{position:absolute;inset:0;pointer-events:none}
+
+/* 2. cards dealt like playing cards */
+html.sig .rv-on .card:not(.vis),html.sig.mo .card:not(.vis){opacity:0;transform:perspective(900px) translate3d(var(--sdx,-26px),-34px,0) rotateY(var(--sry,-80deg)) rotateZ(var(--srz,-9deg)) scale(.9);transform-origin:50% 100%}
+html.sig .rv-on .card.vis:not(.sig-dn),html.sig.mo .card.vis:not(.sig-dn){transform-origin:50% 100%;transition:opacity .45s ease var(--d,0ms),transform 1s cubic-bezier(.3,1.25,.4,1) var(--d,0ms),border-color .3s,box-shadow .35s}
+html.sig .card.sig-dn{transform-origin:50% 50%}
+html.sig .card.vis:not(.sig-dn) .ph::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(200,255,46,.35) 50%,transparent 65%);transform:translateX(-120%);animation:sigFlash .9s calc(var(--d,0ms) + .35s) ease-out both}
+@keyframes sigFlash{to{transform:translateX(120%)}}
+
+/* 3. heading scramble */
+.sig-sc{display:inline-block;white-space:pre;vertical-align:bottom;overflow:visible}
+.sig-sc .sig-g{color:var(--lime,#c8ff2e);opacity:.85}
+
+/* 4. magnetic + breathing shop button */
+html.sig .rx-btn#hxshop{position:relative;overflow:hidden;isolation:isolate}
+html.sig .rx-btn#hxshop::before{content:"";position:absolute;inset:-2px;z-index:-1;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-130%);animation:sigSweep 3.6s 2.2s ease-in-out infinite}
+@keyframes sigSweep{0%,62%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+html.sig .sig-mag{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+html.sig .sig-mag.sig-pull{transition:transform .08s linear}
+html.sig .sig-mag>*{display:inline-block;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+
+/* 5. page wipe (leaving) */
+.sig-wipe{position:fixed;inset:0;z-index:9995;pointer-events:none;overflow:hidden}
+.sig-wipe i{position:absolute;top:-10%;bottom:-10%;left:-30%;width:160%;transform:translateX(-110%) skewX(-14deg);will-change:transform}
+.sig-wipe i:nth-child(1){background:var(--lime,#c8ff2e);animation:sigIn .42s cubic-bezier(.7,0,.3,1) forwards}
+.sig-wipe i:nth-child(2){background:#070707;animation:sigIn .42s .09s cubic-bezier(.7,0,.3,1) forwards}
+.sig-wipe b{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:400 min(18vw,110px)/1 var(--rxD,"RixuD",Impact,sans-serif);letter-spacing:.02em;color:var(--lime,#c8ff2e);opacity:0;animation:sigLogo .3s .3s ease-out forwards}
+.sig-wipe b em{font-style:normal;color:#f3eee3;font-size:.32em;letter-spacing:.3em;display:block;margin-top:.4em}
+@keyframes sigIn{to{transform:translateX(0) skewX(-14deg)}}
+@keyframes sigLogo{from{opacity:0;transform:translateY(-40%) scale(.9)}to{opacity:1;transform:translateY(-50%) scale(1)}}
+/* page wipe (arriving) */
+html.sig-arrive body::after{content:"RIXU";position:fixed;inset:0;z-index:9995;display:flex;align-items:center;justify-content:center;background:#070707;color:var(--lime,#c8ff2e);font:400 min(18vw,110px)/1 var(--rxD,"RixuD",Impact,sans-serif);pointer-events:none;animation:sigOut .55s .05s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes sigOut{to{transform:translateX(105%) skewX(-10deg);visibility:hidden}}
+}
+@media (prefers-reduced-motion: reduce){.sig-fx,.sig-wipe{display:none!important}}

@@ -22,7 +22,7 @@
       var skip = function () { if (!intro) return; intro.classList.add("done"); setTimeout(kill, 200); };
       intro.addEventListener("click", skip);
       d.addEventListener("keydown", skip, { once: true });
-      setTimeout(kill, 1100);
+      setTimeout(kill, R.classList.contains("sig-pi") ? 1480 : 1100);
     }
   }
 
