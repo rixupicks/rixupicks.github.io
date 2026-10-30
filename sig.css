@@ -1,4 +1,6 @@
 /* ===== RIXU FX — signature motion layer (v20261030b). Transform/opacity only, one shared canvas, all off for reduced motion. ===== */
+html.sig body{overflow-x:hidden}
+@supports (overflow:clip){html.sig body{overflow-x:clip}}
 .sig-fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9990;contain:strict}
 @media (prefers-reduced-motion: no-preference){
 /* 1. particle intro */
