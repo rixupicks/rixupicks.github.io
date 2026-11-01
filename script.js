@@ -1,7 +1,7 @@
 // RIXU Picks — app logic. Product list lives in products.js (loaded before this file).
 // ===================================
 
-const CATS = { all: "All", wint: "Winter Collection ❄️", tees: "T-Shirts", shirts: "Shirts", hoodies: "Hoodies & Sweatshirts", jackets: "Jackets", winter: "High Necks & Sweaters", jeans: "Jeans", cargo: "Cargo & Joggers", shorts: "Shorts", track: "Track Pants / Lowers", shoes: "Shoes & Slippers", kurta: "Kurtas", acc: "Caps & Accessories", girls: "Girls' Picks", kurti: "Kurtis", wtops: "Women's Tops", ksets: "Kurta Sets & Co-ords", saree: "Sarees", wish: "❤️ Wishlist" };
+const CATS = { all: "All", trend: "🔥 Trending", gadgets: "Gadgets", korean: "Korean Finds", gifts: "Gifts", decor: "Room Decor", wint: "Winter Collection ❄️", tees: "T-Shirts", shirts: "Shirts", hoodies: "Hoodies & Sweatshirts", jackets: "Jackets", winter: "High Necks & Sweaters", jeans: "Jeans", cargo: "Cargo & Joggers", shorts: "Shorts", track: "Track Pants / Lowers", shoes: "Shoes & Slippers", kurta: "Kurtas", acc: "Caps & Accessories", girls: "Girls' Picks", kurti: "Kurtis", wtops: "Women's Tops", ksets: "Kurta Sets & Co-ords", saree: "Sarees", wish: "❤️ Wishlist" };
 const $ = s => document.querySelector(s);
 const grid = $("#grid");
 const fmt = n => "₹" + n.toLocaleString("en-IN");
@@ -14,7 +14,7 @@ const buyBtn = p => `<a class="buy" href="${p.link}" target="_blank" rel="noopen
   const n = c => c === "all" ? PRODUCTS.length : PRODUCTS.filter(p => inCat(p, c)).length;
   const keys = Object.keys(CATS).filter(k => k !== "wish" && n(k) > 0);
   $("#dcats").innerHTML = keys.map(k => `<button class="dlink" data-filter="${k}">${esc(CATS[k])} <span class="ccount">${n(k)}</span></button>`).join("");
-  const SHORT = { all: "All", wint: "Winter ❄️", tees: "T-Shirts", shirts: "Shirts", hoodies: "Hoodies", jackets: "Jackets", jeans: "Jeans", cargo: "Cargo", shorts: "Shorts", track: "Lowers", shoes: "Shoes", kurta: "Kurtas", acc: "Caps & Chains", girls: "Girls", winter: "High Neck", kurti: "Kurtis", wtops: "Tops", ksets: "Kurta Sets", saree: "Sarees" };
+  const SHORT = { all: "All", trend: "🔥 Trending", gadgets: "Gadgets", korean: "Korean", gifts: "Gifts", decor: "Room Decor", wint: "Winter ❄️", tees: "T-Shirts", shirts: "Shirts", hoodies: "Hoodies", jackets: "Jackets", jeans: "Jeans", cargo: "Cargo", shorts: "Shorts", track: "Lowers", shoes: "Shoes", kurta: "Kurtas", acc: "Caps & Chains", girls: "Girls", winter: "High Neck", kurti: "Kurtis", wtops: "Tops", ksets: "Kurta Sets", saree: "Sarees" };
   const pic = c => (PRODUCTS.find(p => p.cat === c && !p.rixu) || PRODUCTS.find(p => p.cat === c) || PRODUCTS.find(p => inCat(p, c)) || PRODUCTS[0]).img;
   $("#circles").innerHTML = keys.map(k => `<button class="circ" data-filter="${k}" type="button"><span class="ring">${k === "all" ? '<span class="allc">RIXU</span>' : `<img src="${pic(k)}" alt="" loading="lazy">`}</span><span class="cl">${esc(SHORT[k] || CATS[k])}</span></button>`).join("");
   $("#chips").innerHTML = keys.map(k => `<button class="chip" data-filter="${k}" type="button">${esc(CATS[k])}</button>`).join("");
@@ -37,7 +37,7 @@ PRODUCTS.forEach((p, i) => {
   a.dataset.price = p.price; a.dataset.rating = p.rating || 0; a.dataset.i = i;
   const k = n => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "k" : n;
   a.innerHTML = `
-    <div class="ph"><a href="${p.link}" target="_blank" rel="noopener sponsored" tabindex="-1"><img src="${p.img}" alt="${esc(p.name)}" loading="${i < 4 ? "eager" : "lazy"}" width="360" height="450"></a>${p.rixu ? '<span class="rp">⭐ RIXU Pick</span>' : ""}${p.isNew ? '<span class="new">NEW</span>' : ""}<button class="heart" type="button" aria-pressed="false" aria-label="Add to Wishlist">♡</button></div>
+    <div class="ph"><a href="${p.link}" target="_blank" rel="noopener sponsored" tabindex="-1"><img src="${p.img}" alt="${esc(p.name)}" loading="${i < 4 ? "eager" : "lazy"}" width="360" height="450"></a>${p.rixu ? '<span class="rp">⭐ RIXU Pick</span>' : ""}${p.hot ? '<span class="hot">🔥 Trending</span>' : p.isNew ? '<span class="new">NEW</span>' : ""}<button class="heart" type="button" aria-pressed="false" aria-label="Add to Wishlist">♡</button></div>
     <div class="info">
       <h3>${esc(p.name)}</h3>
       <p class="price"><b>${fmt(p.price)}</b>${p.mrp ? ` <s>${fmt(p.mrp)}</s> <em>${p.off}% off</em>` : ""}</p>

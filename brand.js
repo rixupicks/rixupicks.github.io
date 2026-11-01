@@ -64,7 +64,7 @@
   var car = d.getElementById("rx-car");
   if (car && PR.length) {
     var list = PR.map(function (p, i) { return i; })
-      .filter(function (i) { var p = PR[i]; return p.rc && p.cat !== "shoes" && p.cat !== "acc"; })
+      .filter(function (i) { var p = PR[i]; return p.rc && !p.hot && p.cat !== "shoes" && p.cat !== "acc"; })
       .sort(function (a, b) { return PR[b].rc - PR[a].rc; }).slice(0, 12);
     car.innerHTML = list.map(function (i, r) {
       var p = PR[i];

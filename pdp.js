@@ -29,7 +29,7 @@
 
   function sizeGuide(p) {
     const n = p.name.toLowerCase();
-    if (p.cat === "acc" || p.cat === "saree") return "";
+    if (["acc", "saree", "gadgets", "korean", "gifts", "decor"].includes(p.cat)) return "";
     if (p.cat === "shoes") return table(["UK size", "6", "7", "8", "9", "10"], [["Foot length (in)", "9.6", "9.9", "10.2", "10.6", "10.9"]]);
     const bottom = BOTTOMS.includes(p.cat) || (p.also || []).some(c => BOTTOMS.includes(c)) || ((p.cat === "girls" || p.cat === "wint") && /cargo|jeans|pant|trouser|jogger/.test(n));
     if (bottom) return table(["Size", "28", "30", "32", "34", "36"], [["Waist (in)", "28", "30", "32", "34", "36"], ["Hip (in)", "36", "38", "40", "42", "44"]]);

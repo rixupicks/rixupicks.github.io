@@ -3,7 +3,7 @@
 (function () {
   "use strict";
   var WA = "12512765320", AFF = "239146129";
-  var CATS = { wint: "Winter Collection ❄️", tees: "T-Shirts", shirts: "Shirts", hoodies: "Hoodies & Sweatshirts", jackets: "Jackets", winter: "High Necks & Sweaters", jeans: "Jeans", cargo: "Cargo & Joggers", shorts: "Shorts", track: "Track Pants / Lowers", shoes: "Shoes & Slippers", kurta: "Kurtas", acc: "Caps & Accessories", girls: "Girls' Picks", kurti: "Kurtis", wtops: "Women's Tops", ksets: "Kurta Sets & Co-ords", saree: "Sarees" };
+  var CATS = { trend: "🔥 Trending", gadgets: "Gadgets", korean: "Korean Finds", gifts: "Gifts", decor: "Room Decor", wint: "Winter Collection ❄️", tees: "T-Shirts", shirts: "Shirts", hoodies: "Hoodies & Sweatshirts", jackets: "Jackets", winter: "High Necks & Sweaters", jeans: "Jeans", cargo: "Cargo & Joggers", shorts: "Shorts", track: "Track Pants / Lowers", shoes: "Shoes & Slippers", kurta: "Kurtas", acc: "Caps & Accessories", girls: "Girls' Picks", kurti: "Kurtis", wtops: "Women's Tops", ksets: "Kurta Sets & Co-ords", saree: "Sarees" };
   var $ = function (s) { return document.querySelector(s); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var P = typeof PRODUCTS !== "undefined" ? PRODUCTS : [];
