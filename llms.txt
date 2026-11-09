@@ -1,0 +1,13 @@
+# RIXU Picks
+
+> RIXU Picks (@rixupicks) is a hand-curated gallery of cheap, dark-aesthetic fashion finds from Meesho: tees, shirts, hoodies, jackets, jeans, cargo, kurtis, kurta sets, sarees, shoes and more, mostly under Rs 500.
+
+- Every product is a Meesho listing. Buying happens on Meesho; this site only shows the pick and links to it with an affiliate link.
+- Prices and ratings are shown as seen on Meesho when checked and may change; the live Meesho page is the source of truth.
+- Language: Hinglish (Hindi + English). Creator: RIXU on Instagram, @rixupicks.
+
+## Pages
+- [Home, with Trending Clothes](https://rixupicks.sites.tab.bot/)
+- [Outfit Banao: top-to-bottom colour matcher](https://rixupicks.sites.tab.bot/outfit.html)
+- [Get the Look](https://rixupicks.sites.tab.bot/look.html)
+- [Category pages: /c/hoodies.html, /c/tees.html, /c/kurti.html, /c/wtops.html and more, see the sitemap](https://rixupicks.sites.tab.bot/sitemap.xml)

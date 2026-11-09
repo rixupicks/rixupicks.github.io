@@ -60,11 +60,13 @@
   var tape = d.querySelector(".rx-tape");
   if (tape && IO) new IntersectionObserver(function (e) { tape.classList.toggle("off", !e[0].isIntersecting); }).observe(tape);
 
-  /* ---------- trending carousel: most-rated fits on Meesho (real rating counts) ---------- */
+  /* ---------- trending clothes carousel: most-rated clothing on Meesho (real rating counts; clothing categories only) ---------- */
   var car = d.getElementById("rx-car");
+  var CLOTHES = ["tees", "shirts", "hoodies", "jackets", "jeans", "cargo", "shorts", "track", "kurta", "kurti", "wtops", "ksets", "saree", "girls", "winter", "wint"];
+  var NOT_CLOTHES = /\b(cap|beanie|muffler|gloves?)\b/i;
   if (car && PR.length) {
     var list = PR.map(function (p, i) { return i; })
-      .filter(function (i) { var p = PR[i]; return p.rc && !p.hot && p.cat !== "shoes" && p.cat !== "acc"; })
+      .filter(function (i) { var p = PR[i]; return p.rc && !p.hot && CLOTHES.indexOf(p.cat) >= 0 && !NOT_CLOTHES.test(p.name); })
       .sort(function (a, b) { return PR[b].rc - PR[a].rc; }).slice(0, 12);
     car.innerHTML = list.map(function (i, r) {
       var p = PR[i];
